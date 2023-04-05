@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react类</title>
+  <style>
+    .active {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../bin/react.js" crossorigin></script>
+  <script src="../bin/react-dom.js" crossorigin></script>
+  <script src="../bin/babel.js"></script>
+  <script type="text/babel">
+    class App extends React.Component {
+      // state定义
+      constructor() {
+        super();
+        this.state = {
+          movies: ["疯狂的石头", "战狼", "陌上花开", "聪明的墨菲特"],
+          currentIndex: 0
+        }
+      }
+      handleLiClick(index) {
+        this.setState({
+          currentIndex: index
+        })
+      }
+      render() {
+        const { movies, currentIndex } = this.state;
+        const getCurrentIndex = (index) => {
+          return index === currentIndex ? "active" : ""
+        } 
+        const lis = movies.map((movie, index) => 
+        {
+          return (
+            <li 
+              className={getCurrentIndex(index)} 
+              key={movie}
+              onClick={() => this.handleLiClick(index)}
+            >
+              {movie}
+            </li>)
+        });
+        return (
+          <div>
+            {lis}
+          </div>
+        )
+      }
+    }
+    const app = ReactDOM.createRoot(document.querySelector("#app"));
+    app.render(<App/>)
+  </script>
+</body>
+</html>

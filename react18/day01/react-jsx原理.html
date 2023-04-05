@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react类</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../bin/react.js" crossorigin></script>
+  <script src="../bin/react-dom.js" crossorigin></script>
+  <script src="../bin/babel.js"></script>
+  <!-- <script type="text/babel"> -->
+  <script>
+    class App extends React.Component {
+      // state定义
+      constructor() {
+        super();
+      }
+      render() {
+        const element = /*#__PURE__*/
+          React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+            className: "header"
+          }, "header"), /*#__PURE__*/React.createElement("div", {
+            className: "main"
+          }, /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, "\u5217\u88681"), /*#__PURE__*/React.createElement("li", null, "\u5217\u88682"), /*#__PURE__*/React.createElement("li", null, "\u5217\u88683"), /*#__PURE__*/React.createElement("li", null, "\u5217\u88684"), /*#__PURE__*/React.createElement("li", null, "\u5217\u88685"))), /*#__PURE__*/React.createElement("div", {
+            className: "footer"
+          }, "footer"));
+        return element;
+        // return (
+        //   <div>
+        //     <div className="header">header</div>
+        //     <div className="main">
+        //       <ul>
+        //         <li>列表1</li>
+        //         <li>列表2</li>
+        //         <li>列表3</li>
+        //         <li>列表4</li>
+        //         <li>列表5</li>
+        //       </ul>
+        //     </div>
+        //     <div className="footer">footer</div>
+        //   </div>
+        // )
+      }
+    }
+    const app = ReactDOM.createRoot(document.querySelector("#app"));
+    app.render(React.createElement(App, null));
+  </script>
+</body>
+</html>

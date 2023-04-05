@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react类</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    td, th {
+      border: 1px solid #aaa;
+      padding: 10px 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../bin/react.js" crossorigin></script>
+  <script src="../bin/react-dom.js" crossorigin></script>
+  <script src="../bin/babel.js"></script>
+  <script src="./data/index.js"></script>
+  <script type="text/babel">
+    class App extends React.Component {
+      // state定义
+      constructor() {
+        super();
+        this.state = {
+          bookList: data
+        }
+      }
+      handleClick(index, count) {
+        const newBookList = [...this.state.bookList];
+        newBookList[index].count = newBookList[index].count + count;
+        this.setState({
+          bookList: newBookList
+        })
+      }
+      render() {
+        const { bookList } = this.state;
+        let totalPrice = 0;
+        totalPrice = bookList.reduce((pre, {price, count}) => pre + price * count, 0);
+        return (
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>书籍名称</th>
+                  <th>出版日期</th>
+                  <th>价格</th>
+                  <th>购买数量</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  bookList.map((book, index) => {
+                    return(
+                      <tr key={book.id}>
+                        <td>{book.id}</td>
+                        <td>{book.bookName}</td>
+                        <td>{book.date}</td>
+                        <td>{"￥" + book.price}</td>
+                        <td>
+                          <button disabled={book.count <= 1} onClick={() => this.handleClick(index, -1)}>-</button>
+                          {book.count}
+                          <button onClick={() => this.handleClick(index, 1)}>+</button>
+                        </td>
+                        <td>
+                          <button>删除</button>
+                        </td>
+                      </tr>
+                    )
+                  })
+                }
+              </tbody>
+            </table>
+            <h3>总价格：{"￥" + totalPrice}</h3>
+          </div>
+        )
+      }
+    }
+    const app = ReactDOM.createRoot(document.querySelector("#app"));
+    app.render(<App/>)
+  </script>
+</body>
+</html>
