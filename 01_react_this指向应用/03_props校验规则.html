@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+  <div id="test2"></div>
+  <div id="test3"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    class MyComponent extends React.Component {
+      // 类的里面加props校验
+      static propTypes = {
+        name: PropTypes.string.isRequired,
+        speak: PropTypes.func
+      }
+      static defaultProps = {
+        age:1888
+      }
+      render() {
+        // render函数中this指向实例对象MyComponent
+        return (
+          <ul>
+            <li>姓名：{this.props.name}</li>
+            <li>性别：{this.props.sex}</li>
+            <li>年龄：{this.props.age}</li>
+          </ul>
+        )
+      }
+    }
+    // 类的外面加props校验
+    // MyComponent.propTypes = {
+    //   name: PropTypes.string.isRequired,
+    //   speak: PropTypes.func
+    // }
+    // MyComponent.defaultProps = {
+    //   age:1888
+    // }
+    ReactDOM.render(<MyComponent name="王老三" age="20" sex="男" speak={speak}/>, document.getElementById('test'));
+    ReactDOM.render(<MyComponent name="李四" age="20" sex="男"/>, document.getElementById('test2'));
+    ReactDOM.render(<MyComponent name="王五"  sex="男"/>, document.getElementById('test3'));
+    function speak() {
+      console.log("speak");
+    }
+  </script>
+</body>
+</html>

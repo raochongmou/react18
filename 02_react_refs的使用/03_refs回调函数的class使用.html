@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test3"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    class MyComponent extends React.Component {
+      btnClick = () => {
+        const { inp1 } = this; 
+        alert(inp1.value);
+      }
+      state = {
+        isHot: true
+      }
+      btnBlur = () => {
+        const val = this.refs.inp2.value;
+        alert(val);
+      }
+      changeWeather = () => {
+        const {isHot} = this.state;
+        this.setState({
+          isHot: !isHot
+        })
+      }
+      // class形式回调函数只有第一次render时调用
+      watcherChange = (currentNode) => {
+        this.inp1 = currentNode
+        console.log("@", currentNode);
+      }
+      render() {
+        const {isHot} = this.state;
+        return (
+          <div>
+            {/* 内联回调 每次页面数据更新渲染时会调用两次 第一次为null  第二次才会显示相应的更新节点*/}
+            {/* <input ref={(currentNode => {this.inp1 = currentNode, console.log("@", currentNode)} )}/> */}
+            <input ref={this.watcherChange}/>
+            <h2>今天天气很{isHot ? "炎热" : "凉爽"}</h2>
+            <button onClick={this.btnClick}>点击提交显示输入内容</button>
+            <button onClick={this.changeWeather}>点我改变天气</button>
+            <input onBlur={this.btnBlur} ref="inp2"/>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<MyComponent/>, document.getElementById('test3'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react的类的用法之受控组件用法</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    const { Component } = React;
+    //高阶函数定义
+    //一个函数的参数是一个函数，那么这个函数被称为高阶函数
+    //一个函数的返回值任然是一个函数,那么这个函数也被成为高阶函数
+    class Refs extends Component {
+      state = {
+        username: "",
+        password: ""
+      };
+      login = (e) => {
+        // 阻止表单默认跳转事件
+        e.preventDefault();
+        const { username, password } = this.state;
+        alert(`当前用户名为: ${username}, 密码为: ${password}`);
+      };
+      saveChange = (dataType) => {
+        return (e) => {
+          this.setState({
+            [dataType]: e.target.value
+          });  
+        }
+      };
+      render() {
+        return (
+          <form action="http://www.atguigu.com" onSubmit={this.login}>
+            {/*组件的value值由state状态机来维护的称之为受控组件*/}
+            <input type="text" onChange={this.saveChange('username')} name="username" />
+            <input type="password" onChange={this.saveChange('password')} name="password" />
+            <button>login</button>
+          </form>
+        )
+      }
+    }
+    ReactDOM.render(<Refs/>, document.getElementById("test"));
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // promise只要被创建就立即被执行
+    // new Promise((resolve, reject) => {
+    //   resolve(1);
+    //   reject(
+    //     setTimeout(() => {
+    //       throw new Error("申请失败");
+    //     }, 100)
+    //   )
+      
+    //   // console.log(2);
+    // }).then(res => {
+    //   console.log(res);
+    // }).catch(err => console.log(err));
+    // // .then(null, err => console.log(err))
+    // const p1 = new Promise((resolve, reject) => {
+    //   resolve('hello');
+    // })
+    // .then(result => result);
+
+    // const p2 = new Promise((resolve, reject) => {
+    //   throw new Error('报错了');
+    // })
+    // .then(result => result).catch(err => err);
+
+    // Promise.all([p1, p2])
+    // .then(result => console.log(result))
+    // .catch(e => console.log(e));
+
+    const resolved = Promise.resolve(42);
+    const rejected = Promise.reject(-1);
+
+    const allSettledPromise = Promise.allSettled([resolved, rejected]);
+
+    allSettledPromise.then(function (results) {
+      console.log(results);
+      // [
+      //    { status: 'fulfilled', value: 42 },
+      //    { status: 'rejected', reason: -1 }
+      // ]
+    });
+
+  </script>
+</body>
+</html>

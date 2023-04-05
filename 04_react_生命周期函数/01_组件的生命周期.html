@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    class Life extends React.Component {
+      // 初始化state状态
+      state = {
+        opacity: 1
+      }
+      uninstallComponent = () => {
+        // 卸载组件
+        ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+      }
+      // 组件挂在完成钩子函数
+      componentDidMount() {
+        this.timer = setInterval(() => {
+          let {opacity} = this.state;
+          opacity -= 0.1
+          if(opacity <= 0) opacity = 1
+          this.setState({opacity})
+        }, 300)
+      }
+      // 组件卸载之前钩子函数
+      componentWillUnmount() {
+        clearInterval(this.timer);
+      }
+      render() {
+        return (
+          <div>
+            <h2 style={{opacity: this.state.opacity}}>今天学vue了吗？</h2>
+            <button onClick={this.uninstallComponent}>卸载组件</button>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<Life/>, document.getElementById('test'));
+  </script>
+</body>
+</html>

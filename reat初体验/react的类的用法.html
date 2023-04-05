@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jsx用法</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/javascript">
+    class Person {
+      constructor(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      speak() {
+        console.log(this.name + "今年" + this.age + "了");
+      }
+    }
+    class Student extends Person {
+      constructor(name, age, grade) {
+        super(name, age);
+        this.grade = grade;
+      }
+      speak() {
+        console.log(this.name + "今年" + this.age + "上" + this.grade);
+      }
+    }
+    const p1 = new Person("小明", 26);
+    const s2 = new Student("小刘", 30, "初一");
+    console.log(p1);
+    console.log(s2);
+    p1.speak();
+    s2.speak();
+  </script>
+</body>
+</html>

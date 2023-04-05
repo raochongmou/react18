@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * Map 的键实际上是跟内存地址绑定的，
+     * 只要内存地址不一样，就视为两个键
+    */
+    // const map = new Map();
+
+    // const k1 = ['a'];
+    // const k2 = ['a'];
+
+    // map
+    // .set(k1, 111)
+    // .set(k2, 222);
+
+    // map.get(k1) // 111
+    // map.get(k2) // 222
+    // console.log(k1, k2, k1==k2);
+    // map.forEach(function(value, key, map) {
+    //   console.log("Key: %s, Value: %s", key, value);
+    // });
+    let obj1 = {
+      run() {
+        console.log("run");
+      }
+    }
+    let obj = Object.create(Object);
+    console.log(obj);
+    const  user = {
+      "name": '张三',
+      "age": 18
+    };
+    console.log(JSON.stringify(user, null, 2));
+    // obj.run();
+  </script>
+</body>
+</html>

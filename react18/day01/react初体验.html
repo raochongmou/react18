@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react-hello</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../bin/react.js" crossorigin></script>
+  <script src="../bin/react-dom.js" crossorigin></script>
+  <script src="../bin/babel.js"></script>
+  <script type="text/babel">
+    const app = ReactDOM.createRoot(document.querySelector("#app"));
+    let message = "hello react";
+    function handleClick() {
+      console.log("handleClick");
+      message = "react hello";
+      changeText();
+    }
+    function changeText() {
+      app.render((
+        <div>
+          <h2>{message}</h2>
+          <button onClick={handleClick}>切换文本</button>
+        </div>
+      ));
+    }
+    changeText();
+  </script>
+</body>
+</html>

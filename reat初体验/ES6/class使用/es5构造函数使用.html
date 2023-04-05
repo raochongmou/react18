@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // function  Star(name, age) {
+    //   this.name = name;
+    //   this.age = age;
+    // }
+    // 用构造函数原型对象保存函数可以优化减少函数的内存空间开辟
+    // 每个构造函数都存在一个prototye原型对象
+    // 每个实例对象都存在一个__proto__对象原型,该对象原型指向prototype原型对象
+    // constructor指向构造函数本身Star
+    // Star.prototype.sing = function () {
+    //   console.log("sing");
+    // }
+    // Star.prototype.dance = function () {
+    //   console.log("dance");
+    // }
+    // 原型对象赋值语法会将constructor给覆盖掉
+    // Star.prototype = {
+    //   // 需要将constructor重新手动指向构造函数Star
+    //   constructor: Star,
+    //   sing: () => {
+    //     console.log("sing");
+    //   },
+    //   dance: () => {
+    //     console.log("dance");
+    //   }
+    // }
+    // const zhangsan = new Star("张三", 18);
+    // zhangsan.dance();
+    // console.log(zhangsan);
+    function  Father(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+    Father.prototype.sing = () => {
+      console.log("sing");
+    }
+    function Son(name, age) {
+      // 继承父亲的属性
+      Father.call(this, name, age);
+    }
+    Son.prototype = new Father();
+    Son.prototype.constructor = Son;
+    const s = new Son("小强", 18);
+    console.log(s);
+    s.sing()
+    function fn(params) {
+      var name = "ww";
+      function fun(params) {
+        console.log(name);
+      }
+      fun();
+    }
+    fn();
+  </script>
+</body>
+</html>

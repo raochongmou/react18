@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>style对象数组用法</title>
+</head>
+<body>
+  <div id="app"></div>
+  <template id="my-app">
+    <div :style="[styleobj, styleobj2]">哈哈哈</div>
+    <div :[styleobj1]="[styleobj, styleobj2]">哈</div>
+  </template>
+  <script src="../src/vue.global.js"></script>
+  <script>
+    const a = Object.create()
+    Vue.createApp({
+      template: "#my-app",
+      data() {
+        return {
+          styleobj: {
+            color: 'red',
+            fontSize: "50px"
+          },
+          styleobj1: "style",
+          styleobj2: {
+            "text-decoration": "underline"
+          }
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+</html>

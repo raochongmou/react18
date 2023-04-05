@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jsx用法</title>
+</head>
+<body>
+  <div id="test"></div>
+  <div id="demo"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script type="text/javascript">
+    const VDOM = React.createElement("h1", {}, React.createElement("span", {style: { color: 'red', fontSize: '28px' }}, "hello React JS"));
+    const TDOM = document.getElementById("demo");
+    ReactDOM.render(VDOM, document.getElementById("test"));
+    console.log("虚拟DOM", VDOM);//虚拟DOM比较轻   体现在自身属性较少
+    console.log("真实DOM", TDOM);//真实DOM比较重   体现在自身属性较多
+    debugger;
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test3"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    class MyComponent extends React.Component {
+      btnClick = () => {
+        const val = this.refs.inp1.value; 
+        alert(val);
+      }
+      btnBlur = () => {
+        const val = this.refs.inp2.value;
+        alert(val);
+      }
+      render() {
+        return (
+          <div>
+            <input ref="inp1"/>
+            <button onClick={this.btnClick}>点击提交显示输入内容</button>
+            <input onBlur={this.btnBlur} ref="inp2"/>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<MyComponent/>, document.getElementById('test3'));
+  </script>
+</body>
+</html>

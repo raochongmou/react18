@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debounce防抖</title>
+</head>
+<body>
+  <input type="text" />
+  <button id="commit">提交</button>
+  <button id="cancel">取消防抖</button>
+  <script>
+    let commit = document.querySelector("#commit");
+    let cancel = document.querySelector("#cancel");
+    //防抖
+    // 原理: 当用户连续多次点击按钮或input输入事件被调用时,在设定时间内只会被调用一次,且连续点击时间间隔小于设定时间会直到结束点击操作后执行一次 
+    function debounce(func, wait, immediate) {
+      // 处理用户不传函数的情况
+      if(Object.prototype.toString.apply(func) !== "[object Function]") throw Error `${func} is not a function!`;
+      // 初始化定时器变量
+      let timeout = null,
+          result; // 接收事件返回的结果
+      // 定义闭包函数
+      let debounced =  function () {
+        // 清楚定时器
+        clearTimeout(timeout);
+        // arguments是每个函数都有的隐含形参列表和this类似都是浏览器定制参数
+        // arguments是一个类数组对象,但是它不是一个数组,可以用下标来取值
+        // 示例: 
+        // function args(）{//这里无须写形参也可以通过arguments取到实参
+        //   console.log(arguments[0]);//1
+        //  }
+        // args(1, 2, 3, 4);
+        // 拿到事件对象this保存
+        // 拿到浏览器隐含形参列表传给事件函数
+        let _self = this,//因为我们点击事件是由#commit元素对象调用的  所以  这里this指向的是它
+            args = arguments;
+            // console.log(arguments[0]);
+            // console.log(arguments);
+        // 判断是否需要事件第一次立马触发（无须等待设定时间后触发）
+        if(immediate) {
+          let callNow = !timeout;
+          // 每隔wait时间重新赋值timeout为null
+          timeout = setTimeout(() => {
+            timeout = null;
+          }, wait);
+          if(callNow) result = func.apply(_self, args);
+        } 
+        else {//immediate为false不会立即执行
+          timeout = setTimeout(() => {
+            // func(args);//不绑定的话func函数this将为window
+            result = func.apply(_self, args);
+          }, wait);
+        }
+        return result;
+      }
+      debounced.clearDebounce = function () {
+        clearTimeout(timeout);
+        // 这里因为debounce函数属于一个闭包函数   
+        // 局部变量会一直占用内存  
+        // 直至浏览器关闭或整个事件执行完毕才销毁
+        timeout = null;//垃圾回收
+      }
+      return debounced;
+    }
+    function test(event) {
+      console.log(event);
+      this.innerHTML = "提交成功";//绑定apply方法后指向<button>
+    }
+    // 其实页面加载完后会立即调用debounce函数而不会调用test,
+    // 因为debounce后面带了()意为自动加载调用执行与点击事件无关,与页面刷新有关
+    // 所以发生点击事件后调用的是debounce返回的函数被执行
+    let dosome = debounce(test, 3000, false)
+    commit.onclick = dosome;
+    cancel.onclick = dosome.clearDebounce;
+  </script>
+</body>
+</html>

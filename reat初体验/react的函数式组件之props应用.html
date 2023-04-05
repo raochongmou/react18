@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jsx用法</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="../src/proptypes.js"></script>
+  <script type="text/babel">
+    function Demo({ name, age, sex }) {
+      return (
+        <h1>我的名字是:{name},今年{age}岁了,{sex}的一枚单身狗</h1>
+      )
+    }
+    Demo.proTypes = {
+      name: PropTypes.string.isRequeired,
+      age: PropTypes.number,
+      sex: PropTypes.string
+    }
+    
+    const person = {
+      name: "王小二",
+      age: 18,
+      sex: "男"
+    }
+    ReactDOM.render(<Demo {...person}/>, document.getElementById("test"));
+  </script>
+</body>
+</html>

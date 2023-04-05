@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jsx用法</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="../src/proptypes.js"></script>
+  <script type="text/babel">
+    const { Component } = React;
+    class MyComponent extends Component {
+      // 类中写静态属性(对象) 直接将该属性附加在类上
+      // 类型限制
+      static propTypes = {
+        name: PropTypes.string.isRequired,
+        age: PropTypes.number,
+        sex: PropTypes.string
+      }
+      // 属性默认值
+      static defaultProps = {
+        age: 19,
+        sex: "男"
+      }
+      render() {
+        const { name, age, sex } = this.props;
+        return (
+          <h1>我是类组件【复杂组件】，我的名字是:{name},今年{age}岁了,{sex}的一枚单身狗</h1>
+        )
+      }
+    }
+    // console.log(MyComponent);
+    const m = new MyComponent();
+    console.log(m);
+    // // 类型限制
+    // MyComponent.propTypes = {
+    //   name: PropTypes.string.isRequired,
+    //   age: PropTypes.number,
+    //   sex: PropTypes.string
+    // }
+    // // 属性默认值
+    // MyComponent.defaultProps = {
+    //   age: 19,
+    //   sex: "男"
+    // }
+    const person = {
+      name: "小王",
+      age: 100,
+      sex: "女"
+    }
+    ReactDOM.render(<MyComponent age={person.age} name={person.name}/>, document.getElementById("test"));
+    // ReactDOM.render(<MyComponent {...person}/>, document.getElementById("test"));
+  </script>
+</body>
+</html>

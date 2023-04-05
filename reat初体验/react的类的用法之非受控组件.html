@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react的类的用法之refs应用</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    const { Component } = React;
+    // refs回调函数式方式
+    class Refs extends Component {
+      inpUserNameRef = React.createRef();
+      inpPassWordRef = React.createRef();
+      login = (e) => {
+        // 阻止表单默认跳转事件
+        e.preventDefault();
+        const username = this.inpUserNameRef.current.value;
+        const password = this.inpPassWordRef.current.value;
+        alert(`当前用户名为: ${username}, 密码为: ${password}`);
+      }
+      render() {
+        return (
+          <form action="http://www.atguigu.com" onSubmit={this.login}>
+            {/*页面中所有输入类的控件的属性值现用现取称之为非受控组件*/}
+            <input ref={this.inpUserNameRef} type="text" name="username" />
+            <input ref={this.inpPassWordRef} type="password" name="password" />
+            <button>login</button>
+          </form>
+        )
+      }
+    }
+    ReactDOM.render(<Refs/>, document.getElementById("test"));
+  </script>
+</body>
+</html>

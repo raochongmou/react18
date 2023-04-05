@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>style对象数组用法</title>
+  <style>
+    .area {
+      background-color: antiquewhite;
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <template id="my-app">
+    <div class="area" :="info" @click.="clickBtn($event, 'coderwhy')">
+      <button @="{click}">子级</button>
+    </div>
+    <!-- <div class="area" :="info" @="{click: ($event) => clickBtn($event, 'coderwhy')}">哈哈哈</div> -->
+  </template>
+  <script src="../src/vue.global.js"></script>
+  <script>
+    // Vue.createApp({
+    //   template: "#my-app",
+    //   data() {
+    //     return {
+    //       info: {
+    //         name: "coderwhy",
+    //         height: 185,
+    //       },
+    //       styleobj: {
+    //         color: 'red',
+    //         fontSize: "50px"
+    //       },
+    //       styleobj2: {
+    //         "text-decoration": "underline"
+    //       }
+    //     }
+    //   },
+    //   methods: {
+    //     click() {
+    //       console.log("click");
+    //     },
+    //     clickBtn(e, e2) {
+    //       console.log(e, e2);
+    //     },
+    //     mousemove = () => {
+    //       console.log("mousemove");
+    //     }
+    //   }
+    // }).mount('#app')
+    // function  log() {
+    //   console.log(this);
+    // }
+    // let obj = {
+    //   name: "coderwhy"
+    // };
+    // let a = log.bind(obj);
+    // log.bind(obj)();
+    // a();
+    // var names = ["abc", "cba", "nba"];
+    // var obj = {name: "why"};
+    // let baseDetail;
+    // names.forEach(function(item) {
+    //   // console.log(this, item); // 三次obj对象
+    //   baseDetail = Object.assign(this, item);
+    // }, obj);
+    // console.log(baseDetail);
+    let arr = [1, 2, 3, 4];
+    arr.map(item => {
+      console.log(this);
+    })
+    let fn = () => {
+      console.log(this);
+    }
+    fn();
+  </script>
+</body>
+</html>

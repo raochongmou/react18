@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    class MyComponent extends React.Component {
+      // constructor(props) {
+      //   super(props);
+      //   this.state = {
+      //     isShow: true
+      //   }
+      //   this.changeIsShow = this.changeIsShow.bind(this);
+      // }
+      // 简写  等价于 a = { isDisplay: false }
+      state = {
+        isShow: false
+      }
+      render() {
+        // render函数中this指向实例对象MyComponent
+        return (<h2 onClick={this.changeIsShow}>{ this.state.isShow?'react':'vue'}</h2>)
+      }
+      changeIsShow = () => {
+        // this.state.isShow = !this.state.isShow;
+        // console.log(this);
+        // const isShows = !this.state.isShow;
+        this.setState({
+          isShow: !this.state.isShow
+        })
+      }
+    }
+    ReactDOM.render(<MyComponent />, document.getElementById('test'));
+  </script>
+</body>
+</html>

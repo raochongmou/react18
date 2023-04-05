@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>05_getSnapBeforeUpdate钩子应用场景</title>
+  <style type="text/css">
+    .list {
+      width: 500px;
+      height: 150px;
+      overflow: auto;
+      background-color: aqua;
+    }
+    .news {
+      height: 30px;
+      width: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div id="test"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    class News extends React.Component {
+      // constructor(props) {
+      //   super(props)
+      //   // 初始化state状态
+      //   this.state = {
+      //     newArr: []
+      //   }
+      // }
+      state = {
+        newArr: []
+      }
+      // 更新之前留的快照钩子
+      getSnapshotBeforeUpdate(preProps, preState) {
+        // console.log("Count组件---getSnapshotBeforeUpdate", preProps, preState);
+        // 如果不返回任何值会报如下错误
+        // react-dom.development.js:61 Warning: Count.getSnapshotBeforeUpdate():
+        // A snapshot value (or null) must be returned. You have returned undefined at Count
+        // snapshot===>可以返回任何值
+        // return 任何值
+        return this.refs.listRef.scrollHeight;
+      }
+      // 组件挂在完成钩子函数
+      componentDidMount() {
+        setInterval(() => {
+          const {newArr} = this.state;
+          const news = "新闻" + (newArr.length + 1);
+          this.setState({
+            newArr: [news, ...newArr]
+          })
+        }, 1000);
+      }
+      // 组件完成更新钩子
+      componentDidUpdate(preProps, preState, snapshot) {
+        const {listRef} = this.refs
+        console.log(snapshot);
+        listRef.scrollTop += listRef.scrollHeight - snapshot;
+      }
+      render() {
+        const {newArr} = this.state;
+        return (
+          <div className={"list"} ref="listRef">
+            {
+              newArr.map((n,index) => {
+                return <div key={index} className={"news"}>{n}</div>
+              })
+            }
+          </div>
+        )
+      }
+    }
+    
+    ReactDOM.render(<News/>, document.getElementById('test'));
+  </script>
+</body>
+</html>

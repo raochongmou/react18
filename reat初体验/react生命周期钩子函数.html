@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    const { Component } = React;
+    const test = document.getElementById("test");
+    class Life extends Component {
+      state = {
+        opacity: 1
+      }
+      
+      componentDidMount() {
+        this.timer = setInterval(() => {
+          let { opacity } = this.state;
+          opacity -= 0.1;
+          if(opacity <= 0) opacity = 1;
+          this.setState({
+            opacity
+          })
+        }, 200)
+      }
+      componentWillUnmount() {
+        clearInterval(this.timer);
+      }
+      lose = () => {
+        ReactDOM.unmountComponentAtNode(test)
+      }
+      render() {
+        console.log("render");
+        return(
+          <div>
+            <h1 style={{opacity: this.state.opacity}}>欢迎使用React生命周期函数</h1>
+            <button onClick={this.lose}>消失掉</button>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<Life />, test);
+  </script>
+</body>
+</html>

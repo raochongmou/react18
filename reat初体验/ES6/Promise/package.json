@@ -1,0 +1,21 @@
+{
+  "name": "rao",
+  "version": "1.0.0",
+  "description": "",
+  "main": "file文件读取.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devServer": {
+    "proxy": {
+      "^/api": {
+        "target": "https://api.apiopen.top",
+        "ws": true,
+        "changeOrigin": true,
+        "pathRewrite": "/api"
+      }
+    }
+  },
+  "author": "",
+  "license": "ISC"
+}

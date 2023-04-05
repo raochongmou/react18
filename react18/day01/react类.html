@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react类</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../bin/react.js" crossorigin></script>
+  <script src="../bin/react-dom.js" crossorigin></script>
+  <script src="../bin/babel.js"></script>
+  <script type="text/babel">
+    class App extends React.Component {
+      // state定义
+      constructor() {
+        super();
+        this.state = {
+          message: "hello world"
+        }
+        this.handleClick = this.handleClick.bind(this);
+      }
+      handleClick() {
+        this.setState({
+          message: "hello react"
+        })
+      }
+      render() {
+        return (
+          <div>
+            <h4>{this.state.message}</h4>
+            <button onClick={this.handleClick}>切换文本</button>
+          </div>
+        )
+      }
+    }
+    const app = ReactDOM.createRoot(document.querySelector("#app"));
+    app.render(<App/>)
+  </script>
+</body>
+</html>

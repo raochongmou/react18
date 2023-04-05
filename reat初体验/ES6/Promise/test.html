@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title></title>
+</head>
+
+<body>
+	<script>
+		function Person(executor) {
+			this.callback = [];
+			const _self = this;
+			function slowRunning() {
+				_self.callback.forEach(item => {
+					item.slowRunning();
+				})
+				console.log("slow");
+			}
+			Person.prototype.run = function (slowRunning) {
+				console.log(this);
+				const _self = this;
+				this.callback.push({
+					slowRunning: () => {
+						_self.slowRunning();
+					}
+				})
+			}
+			executor(slowRunning());
+		}
+		const p = new Person(() => {
+			console.log("执行回调");
+		});
+		const x = p.run(() => {
+			console.log("slow函数执行了");
+		});
+		console.log(x);
+	</script>
+</body>
+
+</html>

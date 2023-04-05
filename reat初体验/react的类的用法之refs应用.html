@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react的类的用法之refs应用</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    const { Component } = React;
+    // refs回调函数式方式
+    class Refs extends Component {
+      myRefs = React.createRef();
+      showData1 = () => {
+        // const { inp1 } = this;
+        alert(this.myRefs.current.value);
+      }
+      // 外联回调函数
+      getInputRefs = (element) => {
+        this.inp1 = element;
+      }
+      render() {
+        console.log(this);
+        return (
+          <div>
+            {/* refs最新用法*/}
+            <input ref={ this.myRefs } placeholder="请输入想要查看的内容" />
+            {/* <input ref={ this.getInputRefs } placeholder="请输入想要查看的内容" /> */}
+            {/* 内联回调函数 */}
+            {/* <input ref={ currentNode => this.inp1 = currentNode } placeholder="请输入想要查看的内容" /> */}
+            <button onClick={this.showData1}>点我展示输入的内容</button>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<Refs/>, document.getElementById("test"));
+  </script>
+</body>
+</html>

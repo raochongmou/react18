@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue2.x响应式原理</title>
+</head>
+<body>
+  <div id="app">
+    <button @click="warn('Form cannot be submitted yet.', $event), adds('我是add', $event)">
+      Submit
+    </button>
+    {{obj.name}}
+  </div>
+  <script>
+    const obj = {
+      name: "张三"
+    };
+    Object.keys(obj).forEach(key => {
+      // 取出对象的属性值
+      let value = obj[key];
+      Object.defineProperty(obj, key, {
+        // 监听key值的改变
+        set(newVal) {
+          // 监听到对象属性改变后将其改变后的值赋给value
+          value = newVal;
+          console.log(newVal + "发生了改变");
+          // 一旦监听到属性反生改变,立马通知订阅者
+        },
+        get() {
+          // 一旦页面用到该属性 只要更新  将会把结果返回出去
+          console.log(key + "值");
+          return value;
+        }
+      })
+    })
+    // 发布者
+    class Publish {
+      constructor() {
+        this.subs = [];
+      }
+      addSubs(watcher) {
+        this.subs.push(watcher);
+      }
+      // 通知订阅者去更新自己的属性
+      notify() {
+        this.subs.forEach(item => {
+          item.update();
+        })
+      }
+    }
+    // 订阅者
+    class Watcher {
+      constructor(name) {
+        this.name = name;
+      }
+      update() {
+        console.log(this.name + "发生了update");
+      }
+    }
+    const w1 = new Watcher("李四");
+    const pub = new Publish();
+    pub.addSubs(w1);
+    pub.notify();
+  </script>
+  <!-- <script src="./src/vue.js"> -->
+  <script src="./src/vue.global.js">
+  </script>
+  <script>
+    // 需要编译器
+    const app = Vue.createApp({
+      data() {
+        return{
+          obj: {
+            name: "张三"
+          }
+        }
+      },
+      methods: {
+        add(c, b, d = 8) {
+          return c+ b + d;
+        },
+        warn(meesage, event) {
+          console.log(meesage, event);
+        },
+        adds(meesage, event) {
+          console.log(meesage, event);
+        }
+      }
+    }).mount('#app');
+    console.log(app.$data.obj.name);
+    function add(a, b) {
+      return a + b;
+    }
+    class App {
+      add (c, b, d = 10) {
+        return c + b + d;
+      }
+    }
+    const apps = new App();
+    const num = 100;
+    console.log(Reflect.apply(apps.add,
+      num, [1, 8]));
+      const duck = {
+        color: "橙色",
+        name: "小张",
+        age: 18
+      };
+      console.log(Reflect.has(duck, "color"));//true
+      // app.$watch = {
+      //   "obj.name": {
+      //     handler(newVal, oldVal) {
+      //       console.log(newVal, oldVal);
+      //     },
+      //     immediate: true,
+      //     deep: true
+      //   }
+      // }
+    // const app = new Vue({
+    //   el: "#app",
+    //   data() {
+    //     return {
+    //       obj: {
+    //         name: "张三"
+    //       }
+    //     }
+    //   }
+    // })
+  </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    // 总结:
+    // ①挂载时的钩子回调顺序
+    // constructor==>componentWillMount==>render==>componentDidMount四个流程钩子
+    // ②卸载组件时只会调用 componentWillUnmount钩子
+    class Count extends React.Component {
+      constructor(props) {
+        console.log("Count组件---constructor");
+        super(props)
+        // 初始化state状态
+        this.state = {
+          count: 0
+        }
+      }
+      // 获取来自props的衍生的状态钩子
+      // 如果不加static会报如下错误
+      // react-dom.development.js:61 Warning: 
+      // Count: getDerivedStateFromProps() is defined as an instance method and will be ignored. 
+      // Instead, declare it as a static method.at Count
+      static getDerivedStateFromProps(props, state) {
+        console.log("Count组件---getderivedStateFromProps", props, state);
+        // 如果return state的属性，可覆盖state内属性初始值，页面上交互无法再修改state的属性值
+        // 如果返回null  页面的交互可正常运行
+        return null
+      }
+      // 更新之前留的快照钩子
+      getSnapshotBeforeUpdate(preProps, preState) {
+        console.log("Count组件---getSnapshotBeforeUpdate", preProps, preState);
+        // 如果不返回任何值会报如下错误
+        // react-dom.development.js:61 Warning: Count.getSnapshotBeforeUpdate():
+        // A snapshot value (or null) must be returned. You have returned undefined at Count
+        // snapshot===>可以返回任何值
+        // return 任何值
+        return "null";
+      }
+      add = () => {
+        let {count} = this.state;
+        count++
+        this.setState({count})
+      }
+      // 卸载组件点击事件
+      uninstallComponent = () => {
+        ReactDOM.unmountComponentAtNode(document.getElementById('test'));
+      }
+      // 强制更新数据点击事件
+      forceUpdateData = () => {
+        this.forceUpdate();
+      }
+      // 组件将要挂载(17版本被遗弃)
+      // componentWillMount() {
+      //   console.log("Count组件---componentWillMount");
+      // }
+      // 组件挂在完成钩子函数
+      componentDidMount(preProps, preState, snapshot) {
+        console.log("Count组件---componentDidMount", preProps, preState, snapshot);
+      }
+      // 组件卸载之前钩子函数(17版本被遗弃)
+      // componentWillUnmount() {
+      //   console.log("Count组件---componentWillUnmount");
+      // }
+      // setState来触发更新页面的相关钩子函数
+      // 总结:
+      // ③组件数据更新时流程
+      // shouldComponentUpdate==>componentWillUpdate==>render==>componentDidUpdate
+      // forceUpdate来触发强制更新页面的相关钩子函数
+      // 总结:
+      // ④组件数据强制更新时流程
+      // componentWillUpdate==>render==>componentDidUpdate
+      // 是否个更新组件钩子(这里返回值决定流程是否往下走)
+      shouldComponentUpdate() {
+        console.log("Count组件---shouldComponentUpdate");
+        // 如果写了该钩子,此处必须返回一个布尔值true/false
+        // 否则会报错 undefined
+        return true;
+      }
+      // 组件将要更新钩子(17版本被遗弃)
+      // componentWillUpdate() {
+      //   console.log("Count组件---componentWillUpdate");
+      // }
+      // 组件完成更新钩子
+      componentDidUpdate() {
+        console.log("Count组件---componentDidUpdate");
+      }
+      render() {
+        console.log("Count组件---render");
+        let {count} = this.state;
+        return (
+          <div>
+            <h2>当前数值:{count}</h2>
+            <button onClick={this.add}>+1</button>
+            <button onClick={this.uninstallComponent}>卸载组件</button>
+            <button onClick={this.forceUpdateData}>强制更新数据</button>
+          </div>
+        )
+      }
+    }
+    
+    ReactDOM.render(<Count count={1888}/>, document.getElementById('test'));
+  </script>
+</body>
+</html>

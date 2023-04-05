@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    const { Component } = React;
+    const test = document.getElementById("test");
+    class Count extends Component {
+      constructor(props) {
+        console.log("constructor");
+        super(props);
+        this.state = {
+          count: 0
+        }
+      }
+      add = () => {
+        let count = this.state.count+1;
+        this.setState({
+          count
+        })
+      }
+      // 卸载组件
+      remove = () => {
+        ReactDOM.unmountComponentAtNode(test);
+        console.log("unmountComponentAtNode");
+      }
+      componentWillMount() {
+        console.log("componentWillMount");
+      }
+      componentDidMount() {
+        console.log("componentDidMount");
+      }
+      componentWillUnmount() {
+        console.log("componentWillUnmount");
+      }
+      shouldComponentUpdate() {
+        console.log("shouldComponentUpdate");
+        return true;
+      }
+      componentWillUpdate() {
+        console.log("componentWillUpdate");
+      }
+      componentDidUpdate() {
+        console.log("componentDidUpdate");
+      }
+      render() {
+        console.log("render");
+        return (
+          <div>
+            <h1>计数器:{this.state.count}</h1>
+            <button onClick={this.add}>+1</button>
+            <button onClick={this.remove}>卸载</button>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<Count />, test);
+  </script>
+</body>
+</html>
