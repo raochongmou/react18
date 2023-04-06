@@ -38,7 +38,14 @@
           bookList: newBookList
         })
       }
-      render() {
+      handleDelete(index) {
+        const newBookList = [...this.state.bookList];
+        newBookList.splice(index, 1);
+        this.setState({
+          bookList: newBookList
+        })
+      }
+      getData() {
         const { bookList } = this.state;
         let totalPrice = 0;
         totalPrice = bookList.reduce((pre, {price, count}) => pre + price * count, 0);
@@ -60,7 +67,7 @@
                   bookList.map((book, index) => {
                     return(
                       <tr key={book.id}>
-                        <td>{book.id}</td>
+                        <td>{index + 1}</td>
                         <td>{book.bookName}</td>
                         <td>{book.date}</td>
                         <td>{"￥" + book.price}</td>
@@ -70,7 +77,7 @@
                           <button onClick={() => this.handleClick(index, 1)}>+</button>
                         </td>
                         <td>
-                          <button>删除</button>
+                          <button onClick={() => this.handleDelete(index)}>删除</button>
                         </td>
                       </tr>
                     )
@@ -81,6 +88,17 @@
             <h3>总价格：{"￥" + totalPrice}</h3>
           </div>
         )
+      }
+      getEmptyData() {
+        return (
+          <h2>空空如也~</h2>
+        )
+      }
+      render() {
+        const { bookList } = this.state;
+        
+        
+        return bookList.length ? this.getData() : this.getEmptyData();
       }
     }
     const app = ReactDOM.createRoot(document.querySelector("#app"));
